@@ -97,10 +97,12 @@ async function update(req, res) {
   const { id } = req.params;
   const post = {
     ...req.body,
-    userId: 1,
+    userId: req.userData.userId,
   };
   try {
-    await models.Post.update(post, { where: { id, userId: 1 } });
+    await models.Post.update(post, {
+      where: { id, userId: req.userData.userId },
+    });
     res.status(201).json({
       message: "Post updated successfully!",
       post: post,
@@ -118,7 +120,7 @@ async function update(req, res) {
 async function destroy(req, res) {
   const { id } = req.params;
   try {
-    await models.Post.destroy({ where: { id, userId: 1 } });
+    await models.Post.destroy({ where: { id, userId: req.userData.userId } });
     res.status(200).json({
       message: "Post deleted successfully!",
       post: null,
