@@ -3,6 +3,4 @@ function index(req, res) {
   res.send(posts);
 }
 
-export default {
-  index,
-};
+module.exports = { index };

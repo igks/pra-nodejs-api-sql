@@ -1,8 +1,8 @@
-import express from "express";
-import postRoutes from "./routes/posts.js";
+const express = require("express");
+const postRoutes = require("./routes/posts");
 
 const app = express();
 
 app.use("/posts", postRoutes);
 
-export default app;
+module.exports = app;
