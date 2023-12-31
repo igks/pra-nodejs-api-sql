@@ -1,4 +1,22 @@
 const models = require("../models");
+const Validator = require("fastest-validator");
+
+const schema = {
+  title: {
+    type: "string",
+    optional: false,
+    max: "100",
+  },
+  content: {
+    type: "string",
+    optional: false,
+    max: "500",
+  },
+  categoryId: {
+    type: "number",
+    optional: false,
+  },
+};
 
 async function getAll(req, res) {
   try {
@@ -48,6 +66,17 @@ async function create(req, res) {
   const post = {
     ...req.body,
   };
+
+  const v = new Validator();
+  const validationResult = v.validate(post, schema);
+
+  if (validationResult !== true) {
+    return res.status(400).json({
+      message: "Post validation failed!",
+      error: validationResult,
+    });
+  }
+
   try {
     const result = await models.Post.create(post);
     res.status(201).json({
